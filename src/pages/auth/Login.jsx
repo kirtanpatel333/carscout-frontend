@@ -109,6 +109,11 @@ export const Login = () => {
     toast.error(`Invalid credentials. ${MAX_FAILED_ATTEMPTS - nextFailedAttempts} attempts left.`)
   }
 
+  const handleServiceUnavailable = (message) => {
+    setLockMessage('')
+    toast.error(message || 'Login service is temporarily unavailable. Please try again later.')
+  }
+
   const resetLimiter = () => {
     const resetState = { failedAttempts: 0, lockedUntil: null }
     setLimiter(resetState)
@@ -116,80 +121,99 @@ export const Login = () => {
     setLockMessage('')
   }
 
-const submitHandler = async (data) => {
-  if (isLocked) {
-    setLockMessage('Too many failed attempts. Please try again after 5 minutes.')
-    return
-  }
-
-  setIsLoading(true)
-  try {
-
-    const res = await axios.post("http://localhost:4444/user/login", data)
-
-    console.log("response...", res.data)
-
-    if (res.status === 200) {
-
-      toast.success("Login successful!")
-      resetLimiter()
-
-      const rawUser =
-        res.data.user ||
-        res.data.profile ||
-        res.data.data?.user ||
-        res.data.data ||
-        {}
-
-      const role = normalizeRole(res.data.role || rawUser.role)
-      const fallbackName = String(data.email || "").split("@")[0] || "User"
-
-      const safeUser = {
-        ...rawUser,
-        name:
-          rawUser.name ||
-          rawUser.fullName ||
-          rawUser.username ||
-          rawUser.firstName ||
-          fallbackName,
-        email: rawUser.email || data.email,
-        profileImage:
-          rawUser.profileImage ||
-          rawUser.profilePicture ||
-          rawUser.avatar ||
-          rawUser.photo ||
-          "",
-      }
-
-      saveAuthSession({
-        role,
-        token: res.data.token || res.data.accessToken || res.data.jwt,
-        user: safeUser,
-      })
-
-      if (role === "admin") {
-        navigate("/adminpanel")
-      }
-      else if (role === "seller" || role === "buyer" || role === "user") {
-        navigate("/")
-      }
-      else {
-        toast.error("Invalid Role")
-        navigate("/login")
-      }
-
+  const submitHandler = async (data) => {
+    if (isLocked) {
+      setLockMessage('Too many failed attempts. Please try again after 5 minutes.')
+      return
     }
 
-  } catch (error) {
+    setIsLoading(true)
+    try {
 
-    console.log("login error...", error)
-    handleFailedAttempt()
+      const res = await axios.post("http://localhost:4444/user/login", data, {
+        timeout: 10000,
+      })
 
-  } finally {
-    setIsLoading(false)
+      console.log("response...", res.data)
 
+      if (res.status === 200) {
+
+        toast.success("Login successful!")
+        resetLimiter()
+
+        const rawUser =
+          res.data.user ||
+          res.data.profile ||
+          res.data.data?.user ||
+          res.data.data ||
+          {}
+
+        const role = normalizeRole(res.data.role || rawUser.role)
+        const fallbackName = String(data.email || "").split("@")[0] || "User"
+
+        const safeUser = {
+          ...rawUser,
+          name:
+            rawUser.name ||
+            rawUser.fullName ||
+            rawUser.username ||
+            rawUser.firstName ||
+            fallbackName,
+          email: rawUser.email || data.email,
+          profileImage:
+            rawUser.profileImage ||
+            rawUser.profilePicture ||
+            rawUser.avatar ||
+            rawUser.photo ||
+            "",
+        }
+
+        saveAuthSession({
+          role,
+          token: res.data.token || res.data.accessToken || res.data.jwt,
+          user: safeUser,
+        })
+
+        if (role === "admin") {
+          navigate("/adminpanel")
+        }
+        else if (role === "seller" || role === "buyer" || role === "user") {
+          navigate("/")
+        }
+        else {
+          toast.error("Invalid Role")
+          navigate("/login")
+        }
+
+      }
+
+    } catch (error) {
+
+      console.log("login error...", error)
+
+      const status = error?.response?.status
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        ''
+
+      if (status === 401 || status === 404) {
+        handleFailedAttempt()
+        return
+      }
+
+      handleServiceUnavailable(
+        status >= 500 || !status
+          ? 'Login is unavailable right now. Please try again after the backend/database is connected.'
+          : message || 'Login failed. Please try again.'
+      )
+
+    } finally {
+      setIsLoading(false)
+
+    }
   }
-}
 
   return (
     <div className="min-h-screen from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-8">
