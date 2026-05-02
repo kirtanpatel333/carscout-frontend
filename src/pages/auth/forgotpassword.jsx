@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { APP_CONFIG } from '../../config/appConfig'
 
 export const ForgotPassword = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -23,7 +24,7 @@ export const ForgotPassword = () => {
 		try {
 			setIsSubmitting(true)
 
-			const res = await axios.post('http://localhost:4444/user/forgotpassword', data)
+			const res = await axios.post(`${APP_CONFIG.apiBaseUrl}/user/forgotpassword`, data)
 
 			if (res.status === 200) {
 				toast.success(res.data.message || 'Reset password link sent to your email')
@@ -63,11 +64,10 @@ export const ForgotPassword = () => {
 										message: 'Invalid email address',
 									},
 								})}
-								className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${
-									errors.email
+								className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${errors.email
 										? 'border-red-500 focus:border-red-500 focus:bg-slate-700'
 										: 'border-slate-600 focus:border-blue-500 focus:bg-slate-700'
-								}`}
+									}`}
 							/>
 							{errors.email && <p className="text-red-400 text-sm mt-1.5">{errors.email.message}</p>}
 						</div>

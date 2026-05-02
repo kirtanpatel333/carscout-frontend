@@ -8,6 +8,7 @@ import { getAuthUserId, readAuthSession } from "../../utils/auth";
 import { useNotifications } from "../../hooks/useNotifications";
 import { createBookingApi } from "../../services/bookingService";
 import { createReportApi } from "../../services/reportService";
+import { APP_CONFIG } from "../../config/appConfig";
 import { addToWishlistApi, getUserWishlistApi, removeFromWishlistApi } from "../../services/wishlistService";
 import {
   getPurchasedCarIdsLocal,
@@ -95,7 +96,7 @@ export const CustomerHome = () => {
   const fetchCars = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:4444/car/all");
+      const res = await axios.get(`${APP_CONFIG.apiBaseUrl}/car/all`);
       setCars(Array.isArray(res.data) ? res.data : []);
       setError("");
     } catch (err) {
@@ -256,7 +257,7 @@ export const CustomerHome = () => {
         email: inquiryForm.email,
         message: `[${selectedCar.brand} ${selectedCar.model}] ${inquiryForm.message}`,
       };
-      await axios.post("http://localhost:4444/inquiry/create", payload);
+      await axios.post(`${APP_CONFIG.apiBaseUrl}/inquiry/create`, payload);
       toast.success("Inquiry sent successfully");
       setInquiryForm((prev) => ({ ...prev, message: "" }));
       closeActionModal();
@@ -317,7 +318,7 @@ export const CustomerHome = () => {
         rating: Number(reviewForm.rating),
         comment: reviewForm.comment,
       };
-      await axios.post("http://localhost:4444/reviews/add", payload);
+      await axios.post(`${APP_CONFIG.apiBaseUrl}/reviews/add`, payload);
       toast.success("Review submitted");
       setReviewForm({ rating: "5", comment: "" });
       closeActionModal();

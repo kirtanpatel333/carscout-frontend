@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { normalizeRole, saveAuthSession } from '../../utils/auth'
+import { APP_CONFIG } from '../../config/appConfig'
 
 const MAX_FAILED_ATTEMPTS = 5
 const LOCK_TIME_MS = 5 * 60 * 1000
@@ -130,7 +131,7 @@ export const Login = () => {
     setIsLoading(true)
     try {
 
-      const res = await axios.post("http://localhost:4444/user/login", data, {
+      const res = await axios.post(`${APP_CONFIG.apiBaseUrl}/user/login`, data, {
         timeout: 10000,
       })
 

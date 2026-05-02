@@ -8,6 +8,7 @@ import { useNotifications } from "../../hooks/useNotifications";
 import { createNotificationForUser } from "../../services/notificationService";
 import { removeFromWishlistApi } from "../../services/wishlistService";
 import { sendTransactionalEmailApi } from "../../services/emailService";
+import { APP_CONFIG } from "../../config/appConfig";
 import { syncPurchasedCarIdsFromPurchases } from "../../services/purchaseService";
 import { buildPurchaseSuccessMailTemplate } from "../../utils/mailTemplates";
 
@@ -148,7 +149,7 @@ export const BuyCarPage = () => {
       setCarError("");
 
       try {
-        const response = await axios.get("http://localhost:4444/car/all");
+        const response = await axios.get(`${APP_CONFIG.apiBaseUrl}/car/all`);
         const cars = Array.isArray(response?.data) ? response.data : [];
         const selectedCar = cars.find((item) => item?._id === carId);
 
@@ -480,10 +481,10 @@ export const BuyCarPage = () => {
                 <div
                   key={label}
                   className={`rounded-full px-3 py-1.5 text-xs font-semibold border ${isActive
-                      ? "bg-cyan-700 text-white border-cyan-700"
-                      : isComplete
-                        ? "bg-emerald-100 text-emerald-700 border-emerald-200"
-                        : "bg-slate-100 text-slate-600 border-slate-200"
+                    ? "bg-cyan-700 text-white border-cyan-700"
+                    : isComplete
+                      ? "bg-emerald-100 text-emerald-700 border-emerald-200"
+                      : "bg-slate-100 text-slate-600 border-slate-200"
                     }`}
                 >
                   {stepNumber}. {label}

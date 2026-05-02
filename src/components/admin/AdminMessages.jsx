@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const MESSAGE_BASE_URL = "http://localhost:4444/message";
+const MESSAGE_BASE_URL = `${APP_CONFIG.apiBaseUrl}/message`;
 
 const initialForm = {
   name: "",

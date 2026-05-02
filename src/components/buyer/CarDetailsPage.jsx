@@ -19,6 +19,7 @@ import { getCarAddedByDetails } from "../../utils/carOwnership";
 import { createBookingApi } from "../../services/bookingService";
 import { getAuthProfile, getAuthUserId, readAuthSession } from "../../utils/auth";
 import { createOfferApi } from "../../services/offerService";
+import { APP_CONFIG } from "../../config/appConfig";
 
 const getMileageAverage = (mileage) => {
   const values = String(mileage || "")
@@ -86,7 +87,7 @@ export const CarDetailsPage = () => {
       setError("");
 
       try {
-        const response = await axios.get("http://localhost:4444/car/all");
+        const response = await axios.get(`${APP_CONFIG.apiBaseUrl}/car/all`);
         const cars = Array.isArray(response?.data) ? response.data : [];
         setAllCars(cars);
         const selected = cars.find((item) => item?._id === carId);
@@ -254,7 +255,7 @@ export const CarDetailsPage = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:4444/user/getallusers", {
+        const response = await axios.get(`${APP_CONFIG.apiBaseUrl}/user/getallusers`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -296,7 +297,7 @@ export const CarDetailsPage = () => {
     setIsSubmittingInquiry(true);
 
     try {
-      await axios.post("http://localhost:4444/inquiry/create", {
+      await axios.post(`${APP_CONFIG.apiBaseUrl}/inquiry/create`, {
         name: inquiryForm.name,
         email: inquiryForm.email,
         message: `[${car.brand} ${car.model}] ${inquiryForm.message}`,

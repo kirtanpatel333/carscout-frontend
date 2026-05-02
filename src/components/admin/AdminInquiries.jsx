@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const ADMIN_BASE_URL = "http://localhost:4444/admin";
-const INQUIRY_BASE_URL = "http://localhost:4444/inquiry";
+const ADMIN_BASE_URL = `${APP_CONFIG.apiBaseUrl}/admin`;
+const INQUIRY_BASE_URL = `${APP_CONFIG.apiBaseUrl}/inquiry`;
 
 const initialForm = {
   name: "",
@@ -328,8 +329,8 @@ export const AdminInquiries = () => {
                   {submitting
                     ? "Please wait..."
                     : editingInquiryId
-                    ? "Update Inquiry"
-                    : "Create Inquiry"}
+                      ? "Update Inquiry"
+                      : "Create Inquiry"}
                 </button>
               </div>
             </form>

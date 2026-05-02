@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { readAuthSession } from "../../utils/auth";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const ADMIN_BASE_URL = "http://localhost:4444/admin";
-const USER_BASE_URL = "http://localhost:4444/user";
+const ADMIN_BASE_URL = `${APP_CONFIG.apiBaseUrl}/admin`;
+const USER_BASE_URL = `${APP_CONFIG.apiBaseUrl}/user`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;
@@ -417,8 +418,8 @@ export const AdminUsers = () => {
                   {submitting
                     ? "Please wait..."
                     : editingUserId
-                    ? "Update User"
-                    : "Create User"}
+                      ? "Update User"
+                      : "Create User"}
                 </button>
               </div>
             </form>

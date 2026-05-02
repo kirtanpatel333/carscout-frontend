@@ -1,7 +1,8 @@
 import axios from "axios";
 import { readAuthSession } from "../utils/auth";
+import { APP_CONFIG } from "../config/appConfig";
 
-const BOOKING_BASE_URL = "http://localhost:4444/testdrive";
+const BOOKING_BASE_URL = `${APP_CONFIG.apiBaseUrl}/testdrive`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;

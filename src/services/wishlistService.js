@@ -1,7 +1,8 @@
 import axios from "axios";
 import { readAuthSession } from "../utils/auth";
+import { APP_CONFIG } from "../config/appConfig";
 
-const WISHLIST_BASE_URL = "http://localhost:4444/wishlist";
+const WISHLIST_BASE_URL = `${APP_CONFIG.apiBaseUrl}/wishlist`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;

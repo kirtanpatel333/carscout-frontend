@@ -1,7 +1,8 @@
 import axios from "axios";
 import { readAuthSession } from "../utils/auth";
+import { APP_CONFIG } from "../config/appConfig";
 
-const SELL_CAR_URL = "http://localhost:4444/car/add";
+const SELL_CAR_URL = `${APP_CONFIG.apiBaseUrl}/car/add`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;

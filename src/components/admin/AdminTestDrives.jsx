@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const TESTDRIVE_BASE_URL = "http://localhost:4444/testdrive";
+const TESTDRIVE_BASE_URL = `${APP_CONFIG.apiBaseUrl}/testdrive`;
 
 const initialForm = {
   userId: "",
@@ -320,8 +321,8 @@ export const AdminTestDrives = () => {
                   {submitting
                     ? "Please wait..."
                     : editingId
-                    ? "Update Test Drive"
-                    : "Create Test Drive"}
+                      ? "Update Test Drive"
+                      : "Create Test Drive"}
                 </button>
               </div>
             </form>

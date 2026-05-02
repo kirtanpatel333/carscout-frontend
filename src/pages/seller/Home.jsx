@@ -19,6 +19,7 @@ import {
   PURCHASED_CARS_UPDATED_EVENT,
   syncPurchasedCarIdsFromPurchases,
 } from "../../services/purchaseService";
+import { APP_CONFIG } from "../../config/appConfig";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -45,9 +46,9 @@ const Home = () => {
       try {
         const [carsRes, summaryRes, testDriveRes] =
           await Promise.allSettled([
-            axios.get("http://localhost:4444/car/all"),
-            axios.get("http://localhost:4444/admin/dashboard"),
-            axios.get("http://localhost:4444/testdrive/all"),
+            axios.get(`${APP_CONFIG.apiBaseUrl}/car/all`),
+            axios.get(`${APP_CONFIG.apiBaseUrl}/admin/dashboard`),
+            axios.get(`${APP_CONFIG.apiBaseUrl}/testdrive/all`),
           ]);
 
         if (carsRes.status === "fulfilled") {

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { readAuthSession } from "../utils/auth";
+import { APP_CONFIG } from "../config/appConfig";
 
-const NOTIFICATION_BASE_URL = "http://localhost:4444/notification";
+const NOTIFICATION_BASE_URL = `${APP_CONFIG.apiBaseUrl}/notification`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;

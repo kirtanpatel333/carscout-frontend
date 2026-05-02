@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const REVIEW_BASE_URL = "http://localhost:4444/reviews";
+const REVIEW_BASE_URL = `${APP_CONFIG.apiBaseUrl}/reviews`;
 
 const initialForm = {
   userId: "",
@@ -302,8 +303,8 @@ export const AdminReviews = () => {
                   {submitting
                     ? "Please wait..."
                     : editingId
-                    ? "Update Review"
-                    : "Create Review"}
+                      ? "Update Review"
+                      : "Create Review"}
                 </button>
               </div>
             </form>

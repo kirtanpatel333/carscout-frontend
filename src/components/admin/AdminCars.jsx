@@ -13,9 +13,10 @@ import {
   saveCarCreatorMeta,
 } from "../../utils/carOwnership";
 import { normalizeOwnerForApi } from "../../utils/owner";
+import { APP_CONFIG } from "../../config/appConfig";
 
-const ADMIN_BASE_URL = "http://localhost:4444/admin";
-const CAR_BASE_URL = "http://localhost:4444/car";
+const ADMIN_BASE_URL = `${APP_CONFIG.apiBaseUrl}/admin`;
+const CAR_BASE_URL = `${APP_CONFIG.apiBaseUrl}/car`;
 
 const initialForm = {
   brand: "",
@@ -101,14 +102,14 @@ export const AdminCars = () => {
     const payload = {
       brand: form.brand,
       model: form.model,
-        city: form.city,
+      city: form.city,
       year: form.year ? Number(form.year) : undefined,
-        owner: normalizedOwner,
+      owner: normalizedOwner,
       price: form.price ? Number(form.price) : undefined,
-        mileage: form.mileage,
+      mileage: form.mileage,
       fuelType: form.fuelType,
       transmission: form.transmission,
-        description: form.description,
+      description: form.description,
     };
 
     setSubmitting(true);
@@ -274,30 +275,31 @@ export const AdminCars = () => {
                 const addedBy = getCarAddedByDetails(car);
 
                 return (
-                <tr key={car._id} className="border-t border-gray-100">
-                  <td className="px-4 py-4 font-semibold text-slate-800">{car.brand || "-"}</td>
-                  <td className="px-4 py-4 text-gray-700">{car.model || "-"}</td>
-                  <td className="px-4 py-4 text-gray-600">{car.year || "-"}</td>
-                  <td className="px-4 py-4 text-gray-600">{car.price || "-"}</td>
-                  <td className="px-4 py-4 text-gray-600">{car.fuelType || "-"}</td>
-                  <td className="px-4 py-4 text-gray-600">{addedBy.name}</td>
-                  <td className="px-4 py-4 text-gray-600">{addedBy.email}</td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <button
-                      onClick={() => startEdit(car)}
-                      className="bg-slate-100 hover:bg-slate-200 text-indigo-700 px-3 py-2 rounded-lg"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(car._id)}
-                      className="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );})}
+                  <tr key={car._id} className="border-t border-gray-100">
+                    <td className="px-4 py-4 font-semibold text-slate-800">{car.brand || "-"}</td>
+                    <td className="px-4 py-4 text-gray-700">{car.model || "-"}</td>
+                    <td className="px-4 py-4 text-gray-600">{car.year || "-"}</td>
+                    <td className="px-4 py-4 text-gray-600">{car.price || "-"}</td>
+                    <td className="px-4 py-4 text-gray-600">{car.fuelType || "-"}</td>
+                    <td className="px-4 py-4 text-gray-600">{addedBy.name}</td>
+                    <td className="px-4 py-4 text-gray-600">{addedBy.email}</td>
+                    <td className="px-4 py-3 flex gap-2">
+                      <button
+                        onClick={() => startEdit(car)}
+                        className="bg-slate-100 hover:bg-slate-200 text-indigo-700 px-3 py-2 rounded-lg"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(car._id)}
+                        className="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
               {filteredCars.length === 0 && (
                 <tr>
                   <td colSpan={8} className="px-4 py-6 text-center text-gray-500">
@@ -447,8 +449,8 @@ export const AdminCars = () => {
                   {submitting
                     ? "Please wait..."
                     : editingCarId
-                    ? "Update Car"
-                    : "Create Car"}
+                      ? "Update Car"
+                      : "Create Car"}
                 </button>
               </div>
             </form>

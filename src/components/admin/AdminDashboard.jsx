@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ADMIN_SETTINGS_EVENT, readAdminSettings } from "./adminPanelSettings";
 import { getAllWishlistItemsApi } from "../../services/wishlistService";
 import { getAllPurchasesLocal } from "../../services/purchaseService";
+import { APP_CONFIG } from "../../config/appConfig";
 import {
   Bar,
   BarChart,
@@ -16,10 +17,10 @@ import {
   YAxis,
 } from "recharts";
 
-const ADMIN_BASE_URL = "http://localhost:4444/admin";
-const MESSAGE_BASE_URL = "http://localhost:4444/message";
-const REVIEW_BASE_URL = "http://localhost:4444/reviews";
-const TESTDRIVE_BASE_URL = "http://localhost:4444/testdrive";
+const ADMIN_BASE_URL = `${APP_CONFIG.apiBaseUrl}/admin`;
+const MESSAGE_BASE_URL = `${APP_CONFIG.apiBaseUrl}/message`;
+const REVIEW_BASE_URL = `${APP_CONFIG.apiBaseUrl}/reviews`;
+const TESTDRIVE_BASE_URL = `${APP_CONFIG.apiBaseUrl}/testdrive`;
 
 export const AdminDashboard = () => {
   const [stats, setStats] = useState({

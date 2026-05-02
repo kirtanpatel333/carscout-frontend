@@ -69,7 +69,7 @@ export const SignupOtpVerify = () => {
   }, [isRedirectingAfterSuccess, navigate, pending?.signupData]);
 
   const registerUser = async (signupData) => {
-    const res = await axios.post("http://localhost:4444/user/register", {
+    const res = await axios.post(`${APP_CONFIG.apiBaseUrl}/user/register`, {
       firstname: signupData.firstname,
       lastname: signupData.lastname,
       email: signupData.email,

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { readAuthSession } from "../utils/auth";
+import { APP_CONFIG } from "../config/appConfig";
 
-const OFFER_BASE_URL = "http://localhost:4444/offer";
+const OFFER_BASE_URL = `${APP_CONFIG.apiBaseUrl}/offer`;
 
 const getAuthHeaders = () => {
   const token = readAuthSession()?.token;

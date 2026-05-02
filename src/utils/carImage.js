@@ -1,4 +1,6 @@
-const BACKEND_ORIGIN = "http://localhost:4444";
+import { APP_CONFIG } from "../config/appConfig";
+
+const BACKEND_ORIGIN = APP_CONFIG.apiBaseUrl;
 const LOCAL_GALLERY_OVERRIDES_KEY = "carscout.localCarImageGalleryOverrides";
 
 const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;

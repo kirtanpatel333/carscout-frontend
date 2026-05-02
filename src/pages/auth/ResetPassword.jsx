@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { APP_CONFIG } from '../../config/appConfig'
 
 export const ResetPassword = () => {
 	const { token } = useParams()
@@ -46,7 +47,7 @@ export const ResetPassword = () => {
 				token,
 			}
 
-			const res = await axios.put('http://localhost:4444/user/resetpassword', payload)
+			const res = await axios.put(`${APP_CONFIG.apiBaseUrl}/user/resetpassword`, payload)
 
 			if (res.status === 200) {
 				toast.success(res.data.message || 'Password reset successful')
@@ -100,11 +101,10 @@ export const ResetPassword = () => {
 											message: 'Use uppercase, lowercase, number, and special character',
 										},
 									})}
-									className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${
-										errors.newpassword
+									className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${errors.newpassword
 											? 'border-red-500 focus:border-red-500 focus:bg-slate-700'
 											: 'border-slate-600 focus:border-blue-500 focus:bg-slate-700'
-									}`}
+										}`}
 								/>
 								<button
 									type="button"
@@ -132,11 +132,10 @@ export const ResetPassword = () => {
 										required: 'Please confirm your password',
 										validate: (value) => value === newPassword || 'Passwords do not match',
 									})}
-									className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${
-										errors.confirmpassword
+									className={`w-full px-4 py-3 rounded-lg bg-slate-700 border transition-all focus:outline-none text-white placeholder-slate-500 ${errors.confirmpassword
 											? 'border-red-500 focus:border-red-500 focus:bg-slate-700'
 											: 'border-slate-600 focus:border-blue-500 focus:bg-slate-700'
-									}`}
+										}`}
 								/>
 								<button
 									type="button"
